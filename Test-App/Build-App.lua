@@ -52,5 +52,6 @@ project "App"
             "Vendor/glfw/include",
             "Vendor/glad/include",
             "Vendor/glm",
-            "Vendor/vma/Include"
+            "Vendor/vma/Include",
+            "Vendor/vulkan/include"
         }
