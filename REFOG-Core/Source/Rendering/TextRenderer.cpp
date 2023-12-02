@@ -1,5 +1,5 @@
 #include "REFOG/Rendering/TextRenderer.h"
-#include "REFOG/Rendering/Texture.h"
+#include "REFOG/Rendering/Objects/Texture.h"
 #include "REFOG/Rendering/Camera.h"
 #include <filesystem>
 

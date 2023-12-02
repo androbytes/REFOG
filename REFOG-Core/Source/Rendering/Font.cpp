@@ -1,4 +1,4 @@
-#include "REFOG/Rendering/Texture.h"
+#include "REFOG/Rendering/Objects/Texture.h"
 #include "REFOG/Rendering/Font.h"
 #include "REFOG/Logger.h"
 #include "glad/glad.h"

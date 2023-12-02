@@ -29,6 +29,7 @@ namespace REFOG {
 
 		void SetBool(const std::string_view&, bool);
 		void SetInt(const std::string_view&, int);
+		void SetUIntArray(const std::string_view&, GLuint[], GLuint count);
 		void SetFloat(const std::string_view&, float);
 		void SetVec2(const std::string_view&, glm::vec2);
 		void SetVec3(const std::string_view&, glm::vec3);

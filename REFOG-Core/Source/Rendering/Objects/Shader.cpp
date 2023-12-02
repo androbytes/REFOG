@@ -24,6 +24,9 @@ namespace REFOG {
 		m_Program = glCreateProgram();
 		m_Shaders = std::vector<std::vector<GLuint>>();
 		m_Shaders.resize(3);
+
+		LoadShader("\\Shaders\\lib\\LibHandler.fragment.glsl", Fragment);
+		LoadShader("\\Shaders\\lib\\Light2d.fragment.glsl", Fragment);
 	}
 
 	Shader::~Shader() {
@@ -106,6 +109,9 @@ namespace REFOG {
 	}
 	void Shader::SetInt(const std::string_view& name, int value) {
 		glProgramUniform1i(m_Program, GetUniformLocation(name), value);
+	}
+	void Shader::SetUIntArray(const std::string_view& name, GLuint value[], GLuint count) {
+		glProgramUniform1uiv(m_Program, GetUniformLocation(name), count, value);
 	}
 	void Shader::SetFloat(const std::string_view& name, float value) {
 		glProgramUniform1f(m_Program, GetUniformLocation(name), value);

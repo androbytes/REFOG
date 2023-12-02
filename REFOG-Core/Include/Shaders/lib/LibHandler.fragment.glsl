@@ -17,6 +17,7 @@ vec4 HandleLib(vec2 texCoord)
 				break;
 			case 1:
 				result *= ProcessLight(result.xyz, texCoord);
+				result = vec4(1.0f);
 				break;
 		}
 	}

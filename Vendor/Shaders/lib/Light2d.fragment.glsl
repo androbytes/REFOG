@@ -1,6 +1,6 @@
 #version 460 core
 
-uniform float cutoff;
+uniform float cutoff = 0.5f;
 uniform vec2 lightPos;
 uniform sampler2D lightTex;
 

@@ -12,7 +12,8 @@ project "App"
       "Source",
 
 	  -- Include Core
-	  "../REFOG-Core/Include"
+	  "../REFOG-Core/Include",
+      "../Vendor/vulkan-extra"
    }
 
    links
@@ -28,10 +29,10 @@ project "App"
        defines { "WINDOWS" }
 
    filter "configurations:Debug"
-       defines { "DEBUG" }
+       defines { "DEBUG", "VK_EXT_debug_utils" }
        runtime "Debug"
        symbols "On"
-       debugdir "../REFOG-Core/Include"
+       debugdir "../Vendor"
 
    filter "configurations:Release"
        defines { "RELEASE" }
@@ -44,3 +45,12 @@ project "App"
        runtime "Release"
        optimize "On"
        symbols "Off"
+
+    filter "options:git"
+        includedirs
+        {
+            "Vendor/glfw/include",
+            "Vendor/glad/include",
+            "Vendor/glm",
+            "Vendor/vma/Include"
+        }

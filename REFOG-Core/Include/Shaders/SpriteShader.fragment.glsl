@@ -6,7 +6,12 @@ in vec2 texCoord;
 
 uniform sampler2D Texture;
 
+extern vec4 HandleLib(vec2 texCoord);
+
 void main()
 {
-	FragColor = texture(Texture, texCoord) * vertexColor;
+	vec4 Result = texture(Texture, texCoord);
+	//Result *= vertexColor;
+	//Result *= HandleLib(texCoord);
+	FragColor = Result;
 }

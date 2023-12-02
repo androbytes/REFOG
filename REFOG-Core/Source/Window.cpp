@@ -28,33 +28,41 @@ void APIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum seve
 #endif
 
 namespace REFOG {
-	Window::Window(std::string_view name, glm::vec2 scale) {
+	Window::Window(std::string_view name, glm::vec2 scale, bool OpenGL) {
 		static bool GLFWInitialized = false;
 		if (GLFWInitialized == false) {
 			assert(glfwInit() && "Failed to init GLFW");
 		}
 
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-		REFOG_INFO("Using OpenGL 4.6");
+		if (!OpenGL && glfwVulkanSupported()) {
+			glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+		}
+		else {
+			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 
 #ifdef _DEBUG
-		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
-		REFOG_INFO("Using OpenGL Debug Context");
+			glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+			REFOG_INFO("Using OpenGL Debug Context");
 #endif
+		}
 
 		m_Window = glfwCreateWindow(scale.x, scale.y, name.data(), nullptr, nullptr);
 		assert(m_Window && "Failed to create window");
 		REFOG_INFO("Created GLFW Window");
 
-		glfwMakeContextCurrent(m_Window);
-		assert(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress) && "Failed to load OpenGL");
-		REFOG_INFO("Loaded OpenGL");
+		if (OpenGL || !glfwVulkanSupported()) {
+			glfwMakeContextCurrent(m_Window);
+			assert(gladLoadGLLoader((GLADloadproc)glfwGetProcAddress) && "Failed to load OpenGL");
+			REFOG_INFO("Loaded OpenGL");
+
+			REFOG_INFO("OpenGL Version {0}.{1}", GLVersion.major, GLVersion.minor);
 
 #ifdef _DEBUG
-		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-		glDebugMessageCallback(MessageCallback, 0);
+			glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+			glDebugMessageCallback(MessageCallback, 0);
 #endif
+		}
 	}
 
 	Window::~Window() {
@@ -102,5 +110,9 @@ namespace REFOG {
 		int x, y;
 		glfwGetWindowSize(m_Window, &x, &y);
 		return {x, y};
+	}
+
+	void Window::CreateSurface(VkInstance instance, VkSurfaceKHR* surface) {
+		VK_CHECK(glfwCreateWindowSurface(instance, m_Window, nullptr, surface));
 	}
 }

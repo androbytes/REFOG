@@ -5,7 +5,6 @@
 
 #include "Rendering/Objects/Objects.h"
 #include "Rendering/Mesh.h"
-#include "Rendering/Texture.h"
 #include "Rendering/Camera.h"
 #include "Rendering/TextRenderer.h"
 #include "Rendering/Batching/Batching.h"

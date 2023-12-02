@@ -1,4 +1,4 @@
-#include "REFOG/Rendering/Texture.h"
+#include "REFOG/Rendering/Objects/Texture.h"
 #include "stb_image.h"
 #include "REFOG/Logger.h"
 

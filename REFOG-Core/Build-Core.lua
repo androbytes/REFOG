@@ -16,18 +16,26 @@ project "Core"
    {
       "Include",
 
-      "../Vendor"
+      "../Vendor",
+      "../Vendor/vulkan-extra"
    }
 
    targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")
    objdir ("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
+
+   postbuildcommands
+   {
+       "rd /S /Q \"../Vendor/Shaders\"",
+       "mkdir ../Vendor/Shaders",
+       "xcopy /Y /I /E \"Include/Shaders\" \"../Vendor/Shaders\""
+   }
 
    filter "system:windows"
        systemversion "latest"
        defines { }
 
    filter "configurations:Debug"
-       defines { "DEBUG" }
+       defines { "DEBUG", "VK_EXT_debug_utils" }
        runtime "Debug"
        symbols "On"
 
@@ -48,5 +56,6 @@ project "Core"
         {
             "Vendor/glfw/include",
             "Vendor/glad/include",
-            "Vendor/glm"
+            "Vendor/glm",
+            "Vendor/vma/Include"
         }
