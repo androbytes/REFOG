@@ -15,7 +15,7 @@ namespace REFOG {
 			VkSurfaceKHR m_Surface;
 			VkInstance m_Instance;
 		public:
-			Surface(Instance, Window);
+			Surface(Instance, Window&);
 			virtual ~Surface();
 
 			void Destroy() override;

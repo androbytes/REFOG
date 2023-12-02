@@ -6,7 +6,7 @@
 
 namespace REFOG {
 	namespace Vulkan {
-		Surface::Surface(Instance instance, Window window)
+		Surface::Surface(Instance instance, Window& window)
 			: Priority(2) {
 			m_Instance = instance.m_Instance;
 			window.CreateSurface(m_Instance, &m_Surface);
@@ -30,7 +30,7 @@ namespace REFOG {
 
 		VkBool32 Surface::GetPresentSupport(VkPhysicalDevice Device, int idx) {
 			VkBool32 PresentSupport = false;
-			vkGetPhysicalDeviceSurfaceSupportKHR(Device, idx, m_Surface, &PresentSupport);
+			VK_CHECK(vkGetPhysicalDeviceSurfaceSupportKHR(Device, idx, m_Surface, &PresentSupport));
 			return PresentSupport;
 		}
 	}
