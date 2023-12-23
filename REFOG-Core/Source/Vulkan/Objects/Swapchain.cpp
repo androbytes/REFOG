@@ -2,12 +2,13 @@
 #include "REFOG/Vulkan/Objects/Surface.h"
 #include "REFOG/Vulkan/Objects/Device.h"
 #include "REFOG/Window.h"
+#include <vulkan/vk_enum_string_helper.h>
 
 namespace REFOG {
 	namespace Vulkan {
 		Swapchain::Swapchain(Window& Window, const Device& Device) 
 			: Priority(3) {
-			const SwapchainDetails& Details = Device.GetSwapchainDetails();
+			const SwapchainDetails Details = Device.GetSwapchainDetails();
 
 			VkSurfaceFormatKHR SurfaceFormat = ChooseFormat(Details.Formats);
 			VkPresentModeKHR PresentMode = ChoosePresentMode(Details.PresentModes);
@@ -18,34 +19,39 @@ namespace REFOG {
 			if (Details.Capabilities.maxImageCount > 0 && ImageCount > Details.Capabilities.maxImageCount) {
 				ImageCount = Details.Capabilities.maxImageCount;
 			}
+			
+			REFOG_INFO("Supported Transforms: {}", string_VkSurfaceTransformFlagsKHR(Details.Capabilities.supportedTransforms));
+			//REFOG_INFO("Transform 1: VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR");
 
 			VkSwapchainCreateInfoKHR SwapchainCI{};
-			SwapchainCI.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-			SwapchainCI.surface = Details.Surface->m_Surface;
-			SwapchainCI.minImageCount = ImageCount;
-			SwapchainCI.imageFormat = SurfaceFormat.format;
-			SwapchainCI.imageColorSpace = SurfaceFormat.colorSpace;
-			SwapchainCI.imageExtent = Extent;
+			SwapchainCI.sType            = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+			SwapchainCI.surface          = Details.Surface->m_Surface;
+			SwapchainCI.minImageCount    = ImageCount;
+			SwapchainCI.imageFormat      = SurfaceFormat.format;
+			SwapchainCI.imageColorSpace  = SurfaceFormat.colorSpace;
+			SwapchainCI.imageExtent      = Extent;
 			SwapchainCI.imageArrayLayers = 1;
-			SwapchainCI.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+			SwapchainCI.imageUsage       = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
 			if (Indices.GraphicsFamily.value() != Indices.PresentFamily.value()) {
 				uint32_t FamilyIndices[] = { Indices.GraphicsFamily.value(), Indices.PresentFamily.value() };
-				SwapchainCI.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
+				SwapchainCI.imageSharingMode      = VK_SHARING_MODE_CONCURRENT;
 				SwapchainCI.queueFamilyIndexCount = 2;
-				SwapchainCI.pQueueFamilyIndices = FamilyIndices;
+				SwapchainCI.pQueueFamilyIndices   = FamilyIndices;
 			}
 			else {
-				SwapchainCI.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
+				SwapchainCI.imageSharingMode      = VK_SHARING_MODE_EXCLUSIVE;
 				SwapchainCI.queueFamilyIndexCount = 0;
-				SwapchainCI.pQueueFamilyIndices = nullptr;
+				SwapchainCI.pQueueFamilyIndices   = nullptr;
 			}
 
-			SwapchainCI.preTransform = Details.Capabilities.currentTransform;
+			REFOG_INFO("Current Transform: {}", string_VkSurfaceTransformFlagBitsKHR(Details.Capabilities.currentTransform));
+
+			SwapchainCI.preTransform   = Details.Capabilities.currentTransform;
 			SwapchainCI.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
-			SwapchainCI.presentMode = PresentMode;
-			SwapchainCI.clipped = VK_TRUE;
-			SwapchainCI.oldSwapchain = VK_NULL_HANDLE;
+			SwapchainCI.presentMode    = PresentMode;
+			SwapchainCI.clipped        = VK_TRUE;
+			SwapchainCI.oldSwapchain   = VK_NULL_HANDLE;
 
 			m_SwapchainFormat = SurfaceFormat.format;
 			m_Device = Device.m_LogicalDevice;
