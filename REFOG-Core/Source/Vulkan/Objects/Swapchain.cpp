@@ -19,9 +19,6 @@ namespace REFOG {
 			if (Details.Capabilities.maxImageCount > 0 && ImageCount > Details.Capabilities.maxImageCount) {
 				ImageCount = Details.Capabilities.maxImageCount;
 			}
-			
-			REFOG_INFO("Supported Transforms: {}", string_VkSurfaceTransformFlagsKHR(Details.Capabilities.supportedTransforms));
-			//REFOG_INFO("Transform 1: VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR");
 
 			VkSwapchainCreateInfoKHR SwapchainCI{};
 			SwapchainCI.sType            = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
@@ -45,8 +42,6 @@ namespace REFOG {
 				SwapchainCI.pQueueFamilyIndices   = nullptr;
 			}
 
-			REFOG_INFO("Current Transform: {}", string_VkSurfaceTransformFlagBitsKHR(Details.Capabilities.currentTransform));
-
 			SwapchainCI.preTransform   = Details.Capabilities.currentTransform;
 			SwapchainCI.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
 			SwapchainCI.presentMode    = PresentMode;
@@ -62,6 +57,7 @@ namespace REFOG {
 		Swapchain::~Swapchain() { }
 
 		void Swapchain::Destroy() {
+			if (m_Swapchain == VK_NULL_HANDLE) return;
 			vkDestroySwapchainKHR(m_Device, m_Swapchain, nullptr);
 		}
 

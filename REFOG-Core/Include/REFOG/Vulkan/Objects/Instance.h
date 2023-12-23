@@ -16,7 +16,7 @@ namespace REFOG {
 		private:
 			friend class Device;
 			friend class Surface;
-			VkInstance m_Instance;
+			VkInstance m_Instance = VK_NULL_HANDLE;
 
 			std::vector<const char*> FindExtensions(Validation*);
 		public:

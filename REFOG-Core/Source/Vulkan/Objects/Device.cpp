@@ -135,6 +135,7 @@ namespace REFOG {
 		Device::~Device() { }
 
 		void Device::Destroy() {
+			if (m_LogicalDevice == VK_NULL_HANDLE) return;
 			vkDestroyDevice(m_LogicalDevice, nullptr);
 		}
 

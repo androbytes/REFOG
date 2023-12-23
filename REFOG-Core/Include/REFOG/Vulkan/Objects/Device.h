@@ -22,7 +22,7 @@ namespace REFOG {
 			friend class Swapchain;
 
 			VkPhysicalDevice m_PhysicalDevice;
-			VkDevice m_LogicalDevice;
+			VkDevice m_LogicalDevice = VK_NULL_HANDLE;
 			VkQueue m_GraphicsQueue;
 			VkQueue m_PresentQueue;
 			QueueFamilyIndices m_FamilyIndices;

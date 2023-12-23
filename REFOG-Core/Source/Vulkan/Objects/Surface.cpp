@@ -25,6 +25,7 @@ namespace REFOG {
 		Surface::~Surface() { }
 
 		void Surface::Destroy() {
+			if (m_Surface == VK_NULL_HANDLE) return;
 			vkDestroySurfaceKHR(m_Instance, m_Surface, nullptr);
 		}
 

@@ -75,9 +75,8 @@ namespace REFOG {
 		Instance::~Instance() { }
 
 		void Instance::Destroy() {
-			if (m_Instance) {
-				vkDestroyInstance(m_Instance, nullptr);
-			}
+			if (m_Instance == VK_NULL_HANDLE) return;
+			vkDestroyInstance(m_Instance, nullptr);
 		}
 	}
 }

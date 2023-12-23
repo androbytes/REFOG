@@ -12,7 +12,7 @@ namespace REFOG {
 		private:
 			friend class Swapchain;
 
-			VkSurfaceKHR m_Surface;
+			VkSurfaceKHR m_Surface = VK_NULL_HANDLE;
 			VkInstance m_Instance;
 		public:
 			Surface(Instance, Window&);
