@@ -5,7 +5,7 @@
         "commandLine": "",
         "environment": [
         ],
-        "executable": "D:\\Dev\\C++\\Project-REFOG\\Binaries\\windows-x86_64\\Debug\\App\\App.exe",
+        "executable": "Binaries\\windows-x86_64\\Debug\\App\\App.exe",
         "inject": false,
         "numQueuedFrames": 0,
         "options": {
@@ -23,6 +23,6 @@
             "verifyBufferAccess": false
         },
         "queuedFrameCap": 0,
-        "workingDir": "D:/Dev/C++/Project-REFOG/Vendor"
+        "workingDir": "Vendor"
     }
 }
